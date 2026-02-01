@@ -1,8 +1,6 @@
 pipeline {
     agent { 
-        label 'Jenkin-Agents' 
-    }
-
+        label 'Jenkin-Agents' }
     tools {
         jdk 'Java - 21.0.9'
         maven 'Maven3.9.12'
@@ -29,6 +27,20 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-
+        
+        stage("Test Application"){
+           steps {
+                 sh "mvn test"
+           }
+       }
+        stage("SonarQube Analysis"){
+           steps {
+	           script {
+		        withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') { 
+                        sh "mvn sonar:sonar"
+                        }
+		            }
+	           }
+            }
+        }        
     }
-}
