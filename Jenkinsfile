@@ -9,7 +9,7 @@ pipeline {
 	    APP_NAME = "register-app-pipeline"
             RELEASE = "1.0.0"
             DOCKER_USER = "lykienhuy"
-            DOCKER_PASS = credentials('docker-jenkins')
+            DOCKER_PASS = withCredentials([usernameColonPassword(credentialsId: 'docker-jenkins', variable: '')])
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
     }
